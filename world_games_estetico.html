@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WORLD GAMES | Tu universo gamer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: {
+        colors: { cyber: { dark:'#080811', card:'#111120', border:'#25253d', blue:'#00eaff', purple:'#8b5cf6', pink:'#ff3ea5', green:'#34f5a6' } },
+        fontFamily: { orbitron:['Orbitron','sans-serif'], sans:['Inter','sans-serif'] },
+        boxShadow: { glow:'0 0 28px rgba(0,234,255,.15)', pinkglow:'0 0 24px rgba(255,62,165,.18)' }
+      }}
+    }
+  </script>
+  <style>
+    * { scrollbar-width: thin; scrollbar-color:#343452 #080811; }
+    body { background: radial-gradient(ellipse at top, #17132b 0%, #080811 52%); }
+    .glass { background:rgba(17,17,32,.78); backdrop-filter:blur(16px); }
+    .neon-border { border:1px solid rgba(0,234,255,.16); transition: .25s ease; }
+    .neon-border:hover { border-color:rgba(0,234,255,.55); transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,234,255,.09); }
+    .gradient-text { background:linear-gradient(90deg,#00eaff,#a78bfa,#ff3ea5); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .hero-glow { position:absolute; width:22rem; height:22rem; border-radius:999px; filter:blur(90px); opacity:.18; pointer-events:none; }
+    .bot-pulse { animation:pulse 3s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{box-shadow:0 0 14px rgba(0,234,255,.22)} 50%{box-shadow:0 0 26px rgba(255,62,165,.35)} }
+    .category-btn.active { background:linear-gradient(135deg,#7c3aed,#a855f7); color:white; border-color:transparent; }
+  </style>
+</head>
+<body class="min-h-screen text-slate-100 font-sans">
+<header class="sticky top-0 z-40 glass border-b border-cyber-border">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-[78px] flex items-center justify-between gap-4">
+    <a href="#hero" class="flex items-center gap-3 group shrink-0">
+      <img src="logo.png" alt="Logo WORLD GAMES" class="w-14 h-14 object-contain group-hover:scale-105 transition-transform">
+      <span class="font-orbitron text-lg sm:text-xl font-black tracking-wide">WORLD<span class="text-cyber-blue">GAMES</span></span>
+    </a>
+    <nav class="hidden lg:flex items-center gap-7 text-xs font-bold tracking-widest text-slate-300">
+      <a href="#hero" class="hover:text-cyber-blue transition">INICIO</a>
+      <a href="#featured" class="hover:text-cyber-blue transition">VENTAJAS</a>
+      <a href="#catalog" class="hover:text-cyber-blue transition">CATÁLOGO</a>
+      <button onclick="openChatbot()" class="text-cyber-pink hover:text-cyber-blue transition"><i class="fa-solid fa-robot mr-1"></i> GAMEBOT IA</button>
+    </nav>
+    <div class="flex items-center gap-3">
+      <div class="relative hidden md:block">
+        <input id="searchInput" oninput="filterGames()" placeholder="Buscar juego..." class="w-44 xl:w-56 bg-cyber-card border border-cyber-border rounded-full py-2.5 pl-9 pr-4 text-sm focus:outline-none focus:border-cyber-blue">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-500 text-xs"></i>
+      </div>
+      <button onclick="toggleCartModal()" aria-label="Abrir carrito" class="relative rounded-xl bg-cyber-card border border-cyber-border hover:border-cyber-blue p-3 transition">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span id="cartCountBadge" class="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-cyber-pink text-white text-[10px] font-bold flex items-center justify-center">0</span>
+      </button>
+      <button onclick="toggleMobileMenu()" class="lg:hidden rounded-xl bg-cyber-card border border-cyber-border p-3"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </div>
+  <div id="mobileMenu" class="hidden lg:hidden px-5 pb-4 space-y-3 bg-cyber-card border-t border-cyber-border">
+    <input id="mobileSearchInput" oninput="filterGamesMobile()" placeholder="Buscar videojuegos..." class="w-full bg-cyber-dark border border-cyber-border rounded-lg p-3 text-sm">
+    <div class="flex flex-wrap gap-4 text-sm font-semibold">
+      <a href="#hero" onclick="toggleMobileMenu()">Inicio</a><a href="#featured" onclick="toggleMobileMenu()">Ventajas</a><a href="#catalog" onclick="toggleMobileMenu()">Catálogo</a>
+      <button onclick="toggleMobileMenu();openChatbot()" class="text-cyber-pink">GameBot IA</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="hero" class="relative overflow-hidden py-16 lg:py-24">
+  <div class="hero-glow bg-cyber-purple top-10 left-1/4"></div><div class="hero-glow bg-cyber-blue bottom-0 right-0"></div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-12 items-center">
+    <div class="text-center lg:text-left">
+      <span class="inline-flex items-center gap-2 rounded-full border border-cyber-purple/40 bg-cyber-purple/10 px-4 py-2 text-xs font-bold tracking-wide text-cyber-blue mb-6"><i class="fa-solid fa-bolt text-cyber-pink"></i> TU PRÓXIMA AVENTURA COMIENZA AQUÍ</span>
+      <h1 class="font-orbitron text-4xl sm:text-5xl xl:text-6xl font-black leading-tight">ENTRA A TU <span class="gradient-text">UNIVERSO GAMER</span></h1>
+      <p class="mt-6 max-w-xl mx-auto lg:mx-0 text-slate-400 leading-7">Explora títulos para PC y consolas, encuentra ofertas y descubre tu próximo juego con la ayuda de nuestro asistente GameBot IA.</p>
+      <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+        <a href="#catalog" class="rounded-xl bg-gradient-to-r from-cyber-blue to-cyber-purple px-7 py-4 font-orbitron text-sm font-bold tracking-wide text-slate-950 hover:brightness-110 transition shadow-glow"><i class="fa-solid fa-gamepad mr-2"></i>VER CATÁLOGO</a>
+        <button onclick="openChatbot()" class="rounded-xl border border-cyber-pink/70 bg-cyber-pink/5 px-7 py-4 font-orbitron text-sm font-bold tracking-wide text-cyber-pink hover:bg-cyber-pink/10 transition bot-pulse"><i class="fa-solid fa-robot mr-2"></i>CONSULTAR GAMEBOT</button>
+      </div>
+      <div class="mt-9 flex justify-center lg:justify-start gap-8 text-xs text-slate-500"><span><i class="fa-solid fa-shield-halved text-cyber-green mr-2"></i>Compra segura</span><span><i class="fa-solid fa-bolt text-cyber-blue mr-2"></i>Entrega digital</span></div>
+    </div>
+    <div class="relative">
+      <div class="absolute -inset-3 rounded-3xl bg-gradient-to-br from-cyber-blue/20 via-cyber-purple/15 to-cyber-pink/20 blur-xl"></div>
+      <div class="relative overflow-hidden rounded-3xl border border-cyber-border bg-cyber-card shadow-2xl">
+        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1000&q=85" alt="Ambiente de videojuegos" class="h-72 sm:h-[420px] w-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-cyber-dark via-cyber-dark/20 to-transparent"></div>
+        <div class="absolute bottom-0 p-6 sm:p-8">
+          <span class="rounded-md bg-cyber-pink px-3 py-1 text-[10px] font-black tracking-widest">JUEGO DESTACADO</span>
+          <h2 class="mt-3 font-orbitron text-2xl sm:text-3xl font-bold">Cyber Odyssey 2088</h2>
+          <div class="mt-4 flex items-center justify-between gap-4"><span class="font-orbitron text-xl font-bold text-cyber-blue">$49.99 <small class="text-sm text-slate-500 line-through">$69.99</small></span><button onclick="addToCart(1)" class="rounded-lg bg-cyber-blue px-4 py-2.5 font-bold text-slate-950 hover:bg-white transition"><i class="fa-solid fa-plus mr-1"></i>Añadir</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="featured" class="border-y border-cyber-border bg-white/[.02] py-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="neon-border rounded-2xl bg-cyber-card/70 p-5 text-center"><i class="fa-solid fa-bolt text-2xl text-cyber-blue"></i><h3 class="mt-3 font-bold">Entrega inmediata</h3><p class="mt-1 text-xs text-slate-500">Tus códigos digitales al instante</p></div>
+    <div class="neon-border rounded-2xl bg-cyber-card/70 p-5 text-center"><i class="fa-solid fa-shield-halved text-2xl text-cyber-purple"></i><h3 class="mt-3 font-bold">Compra segura</h3><p class="mt-1 text-xs text-slate-500">Experiencia confiable</p></div>
+    <div class="neon-border rounded-2xl bg-cyber-card/70 p-5 text-center"><i class="fa-solid fa-headset text-2xl text-cyber-pink"></i><h3 class="mt-3 font-bold">Soporte gamer</h3><p class="mt-1 text-xs text-slate-500">Ayuda cuando la necesitas</p></div>
+    <div class="neon-border rounded-2xl bg-cyber-card/70 p-5 text-center"><i class="fa-solid fa-tags text-2xl text-cyber-green"></i><h3 class="mt-3 font-bold">Grandes ofertas</h3><p class="mt-1 text-xs text-slate-500">Encuentra tu siguiente favorito</p></div>
+  </div>
+</section>
+
+<section id="catalog" class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+  <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-5 mb-8">
+    <div><p class="text-cyber-pink text-xs font-bold tracking-[.25em]">SELECCIÓN GAMER</p><h2 class="mt-2 font-orbitron text-3xl sm:text-4xl font-black">CATÁLOGO <span class="gradient-text">DE JUEGOS</span></h2><p class="mt-2 text-sm text-slate-500">Filtra por género, precio o encuentra un título específico.</p></div>
+    <div class="flex items-center gap-3 rounded-xl border border-cyber-border bg-cyber-card px-4 py-3"><label for="priceRange" class="text-xs text-slate-400 font-semibold whitespace-nowrap">Precio máximo</label><input type="range" id="priceRange" min="10" max="70" step="5" value="70" oninput="updatePriceLabel(this.value);filterGames()" class="accent-cyber-blue"><span id="priceValue" class="font-orbitron text-sm font-bold text-cyber-blue">$70</span></div>
+  </div>
+  <div class="flex gap-2 overflow-x-auto pb-3 mb-7">
+    <button onclick="setCategory('all',this)" class="category-btn active whitespace-nowrap rounded-full border border-cyber-border px-5 py-2.5 text-xs font-bold">Todos</button>
+    <button onclick="setCategory('Acción',this)" class="category-btn whitespace-nowrap rounded-full border border-cyber-border bg-cyber-card px-5 py-2.5 text-xs font-bold text-slate-300">Acción / RPG</button>
+    <button onclick="setCategory('Aventura',this)" class="category-btn whitespace-nowrap rounded-full border border-cyber-border bg-cyber-card px-5 py-2.5 text-xs font-bold text-slate-300">Aventura / Terror</button>
+    <button onclick="setCategory('Estrategia',this)" class="category-btn whitespace-nowrap rounded-full border border-cyber-border bg-cyber-card px-5 py-2.5 text-xs font-bold text-slate-300">Estrategia</button>
+    <button onclick="setCategory('Deportes',this)" class="category-btn whitespace-nowrap rounded-full border border-cyber-border bg-cyber-card px-5 py-2.5 text-xs font-bold text-slate-300">Deportes / Carreras</button>
+    <button onclick="setCategory('Indie',this)" class="category-btn whitespace-nowrap rounded-full border border-cyber-border bg-cyber-card px-5 py-2.5 text-xs font-bold text-slate-300">Indie</button>
+  </div>
+  <div id="gamesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+</section>
+</main>
+
+<footer class="border-t border-cyber-border bg-cyber-card/70 py-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div><div class="flex items-center gap-3"><img src="logo.png" alt="WORLD GAMES" class="w-12 h-12 object-contain"><span class="font-orbitron font-black">WORLD<span class="text-cyber-blue">GAMES</span></span></div><p class="mt-3 max-w-xs text-xs leading-6 text-slate-500">Tu espacio digital para descubrir videojuegos, ofertas y nuevas aventuras.</p></div>
+    <div><h4 class="font-orbitron text-sm font-bold mb-3">Navegación</h4><div class="space-y-2 text-xs text-slate-400"><a class="block hover:text-cyber-blue" href="#hero">Inicio</a><a class="block hover:text-cyber-blue" href="#catalog">Catálogo</a><button onclick="openChatbot()" class="hover:text-cyber-pink">GameBot IA</button></div></div>
+    <div><h4 class="font-orbitron text-sm font-bold mb-3">Plataformas</h4><ul class="space-y-2 text-xs text-slate-400"><li>PC · Steam · Epic Games</li><li>PlayStation 5</li><li>Xbox Series X|S</li><li>Nintendo Switch</li></ul></div>
+    <div><h4 class="font-orbitron text-sm font-bold mb-3">Comunidad</h4><div class="flex gap-4 text-slate-300"><a href="#" aria-label="Discord" class="hover:text-cyber-blue"><i class="fa-brands fa-discord text-xl"></i></a><a href="#" aria-label="Instagram" class="hover:text-cyber-pink"><i class="fa-brands fa-instagram text-xl"></i></a><a href="#" aria-label="X" class="hover:text-cyber-blue"><i class="fa-brands fa-x-twitter text-xl"></i></a></div><p class="mt-4 text-xs text-slate-600">© 2026 WORLD GAMES. Todos los derechos reservados.</p></div>
+  </div>
+</footer>
+
+<!-- Carrito -->
+<div id="cartModal" class="fixed inset-0 z-50 hidden justify-end bg-black/75 backdrop-blur-sm">
+  <div class="flex h-full w-full max-w-md flex-col justify-between border-l border-cyber-border bg-cyber-card p-6">
+    <div><div class="flex items-center justify-between border-b border-cyber-border pb-4"><h3 class="font-orbitron font-bold"><i class="fa-solid fa-cart-shopping text-cyber-blue mr-2"></i>Mi carrito</h3><button onclick="toggleCartModal()" class="text-2xl text-slate-400">&times;</button></div><div id="cartItemsList" class="max-h-[60vh] space-y-3 overflow-y-auto py-4"></div></div>
+    <div class="space-y-4 border-t border-cyber-border pt-4"><div class="flex justify-between font-bold"><span>Total</span><span id="cartTotal" class="font-orbitron text-cyber-blue">$0.00</span></div><button onclick="checkoutCart()" class="w-full rounded-xl bg-gradient-to-r from-cyber-blue to-cyber-purple py-3.5 font-orbitron text-sm font-bold text-slate-950">FINALIZAR COMPRA</button></div>
+  </div>
+</div>
+
+<!-- GameBot -->
+<div id="chatbotWidget" class="fixed bottom-5 right-5 z-50 flex flex-col items-end">
+  <div id="chatbotWindow" class="mb-4 hidden w-[min(92vw,380px)] flex-col overflow-hidden rounded-2xl border border-cyber-blue/50 bg-cyber-card shadow-2xl">
+    <div class="flex items-center justify-between border-b border-cyber-border bg-cyber-dark/80 p-4"><div class="flex items-center gap-3"><div class="flex h-9 w-9 items-center justify-center rounded-full bg-cyber-purple"><i class="fa-solid fa-robot"></i></div><div><h4 class="font-orbitron text-sm font-bold">GameBot IA</h4><span class="text-[10px] text-cyber-green">● En línea</span></div></div><button onclick="openChatbot()" class="text-xl text-slate-400">&times;</button></div>
+    <div id="chatMessages" class="h-72 space-y-3 overflow-y-auto bg-cyber-dark/40 p-4 text-sm"></div><div id="typingIndicator" class="hidden px-4 py-2 text-xs italic text-cyber-blue">GameBot está escribiendo...</div><div id="chatOptions" class="flex flex-wrap gap-2 border-t border-cyber-border bg-cyber-card p-3"></div>
+  </div>
+  <button onclick="openChatbot()" aria-label="Abrir GameBot IA" class="bot-pulse flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-cyber-blue to-cyber-pink text-slate-950 shadow-glow hover:scale-105 transition"><i class="fa-solid fa-robot text-2xl"></i></button>
+</div>
+
+<script>
+const gamesData = [
+ {id:1,title:"Cyber Odyssey 2088",category:"Acción",platform:"PC / PS5",price:49.99,rating:4.9,image:"https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=500&q=80",mode:"Solo/Historia"},
+ {id:2,title:"Shadow of Eldoria",category:"Acción",platform:"PC / Xbox",price:59.99,rating:4.8,image:"https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=500&q=80",mode:"Solo/Historia"},
+ {id:3,title:"Nebula Warfare: Apex",category:"Estrategia",platform:"PC",price:29.99,rating:4.5,image:"https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=500&q=80",mode:"Multijugador"},
+ {id:4,title:"Neon Velocity Unleashed",category:"Deportes",platform:"PS5 / Switch",price:24.99,rating:4.6,image:"https://images.unsplash.com/photo-1511882150382-421056c89033?auto=format&fit=crop&w=500&q=80",mode:"Competitivo Online"},
+ {id:5,title:"Pixel Dungeon Crawl",category:"Indie",platform:"PC / Switch",price:14.99,rating:4.7,image:"https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=500&q=80",mode:"Solo/Historia"},
+ {id:6,title:"Resident Nightmare VI",category:"Aventura",platform:"PC / PS5 / Xbox",price:39.99,rating:4.8,image:"https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=500&q=80",mode:"Solo/Historia"},
+ {id:7,title:"Tactical Ops: Zero Zone",category:"Acción",platform:"PC / Xbox",price:19.99,rating:4.4,image:"https://images.unsplash.com/photo-1542751110-97427bbecf20?auto=format&fit=crop&w=500&q=80",mode:"Competitivo Online"},
+ {id:8,title:"Starlight Valley Harvest",category:"Indie",platform:"Switch / PC",price:12.99,rating:4.9,image:"https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?auto=format&fit=crop&w=500&q=80",mode:"Solo/Historia"}
+];
+let activeCategory='all', shoppingCart=[];
+function renderCatalog(games){
+ const grid=document.getElementById('gamesGrid'); grid.innerHTML='';
+ if(!games.length){grid.innerHTML='<div class="col-span-full py-14 text-center text-slate-500">No se encontraron juegos con esos filtros.</div>';return;}
+ games.forEach(game=>{
+  const card=document.createElement('article');card.className='neon-border flex flex-col justify-between overflow-hidden rounded-2xl bg-cyber-card shadow-lg';
+  card.innerHTML=`<div><div class="relative h-48 overflow-hidden"><img src="${game.image}" alt="${game.title}" loading="lazy" class="h-full w-full object-cover transition duration-500 hover:scale-105"><span class="absolute right-3 top-3 rounded-lg border border-white/10 bg-cyber-dark/85 px-2.5 py-1 text-[10px] font-bold text-cyber-blue">${game.platform}</span><span class="absolute bottom-3 left-3 rounded-md bg-cyber-purple/90 px-2.5 py-1 text-[10px] font-bold">${game.category}</span></div><div class="p-5"><div class="mb-2 flex items-center gap-1 text-xs text-amber-400"><i class="fa-solid fa-star"></i><span class="font-bold text-white">${game.rating}</span></div><h3 class="line-clamp-1 font-orbitron text-sm font-bold text-white">${game.title}</h3><p class="mt-2 text-xs text-slate-500">${game.mode}</p></div></div><div class="mt-2 flex items-center justify-between border-t border-cyber-border/70 p-5 pt-4"><div><span class="block text-[10px] text-slate-500">Precio digital</span><span class="font-orbitron text-lg font-black text-cyber-blue">$${game.price.toFixed(2)}</span></div><button onclick="addToCart(${game.id})" class="rounded-lg border border-cyber-purple/50 bg-cyber-purple/10 px-3 py-2 text-xs font-bold text-cyber-blue hover:bg-cyber-purple hover:text-white transition"><i class="fa-solid fa-cart-plus mr-1"></i>Añadir</button></div>`;
+  grid.appendChild(card);
+ });
+}
+function setCategory(cat,btn){activeCategory=cat;document.querySelectorAll('.category-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');filterGames();}
+function updatePriceLabel(val){document.getElementById('priceValue').textContent='$'+val;}
+function filterGames(){const query=document.getElementById('searchInput').value.toLowerCase();const max=parseFloat(document.getElementById('priceRange').value);renderCatalog(gamesData.filter(g=>(activeCategory==='all'||g.category===activeCategory)&&g.title.toLowerCase().includes(query)&&g.price<=max));}
+function filterGamesMobile(){const query=document.getElementById('mobileSearchInput').value.toLowerCase();renderCatalog(gamesData.filter(g=>(activeCategory==='all'||g.category===activeCategory)&&g.title.toLowerCase().includes(query)&&g.price<=parseFloat(document.getElementById('priceRange').value)));}
+function addToCart(id){const game=gamesData.find(g=>g.id===id);if(game){shoppingCart.push(game);updateCartUI();}}
+function removeFromCart(index){shoppingCart.splice(index,1);updateCartUI();}
+function updateCartUI(){document.getElementById('cartCountBadge').textContent=shoppingCart.length;const list=document.getElementById('cartItemsList');list.innerHTML='';let total=0;shoppingCart.forEach((item,i)=>{total+=item.price;list.innerHTML+=`<div class="flex items-center justify-between rounded-xl border border-cyber-border bg-cyber-dark p-3"><div class="flex items-center gap-3"><img src="${item.image}" alt="" class="h-12 w-12 rounded-lg object-cover"><div><h4 class="line-clamp-1 text-xs font-bold">${item.title}</h4><span class="font-orbitron text-xs font-bold text-cyber-blue">$${item.price.toFixed(2)}</span></div></div><button onclick="removeFromCart(${i})" aria-label="Eliminar" class="p-2 text-red-400"><i class="fa-solid fa-trash-can"></i></button></div>`;});document.getElementById('cartTotal').textContent='$'+total.toFixed(2);}
+function toggleCartModal(){const modal=document.getElementById('cartModal');modal.classList.toggle('hidden');modal.classList.toggle('flex');}
+function checkoutCart(){if(!shoppingCart.length){alert('Tu carrito está vacío.');return;}alert('¡Gracias por tu compra! Esta es una demostración de tienda.');shoppingCart=[];updateCartUI();toggleCartModal();}
+function toggleMobileMenu(){document.getElementById('mobileMenu').classList.toggle('hidden');}
+let chatState={platform:null,genre:null,mode:null,recommendedGame:null};
+function openChatbot(){const win=document.getElementById('chatbotWindow');win.classList.toggle('hidden');win.classList.toggle('flex');if(!document.getElementById('chatMessages').children.length)initChatQuiz();}
+function showTyping(show){document.getElementById('typingIndicator').classList.toggle('hidden',!show);}
+function addMessage(sender,text){const log=document.getElementById('chatMessages'),msg=document.createElement('div');if(sender==='bot'){msg.className='flex items-start gap-2';msg.innerHTML=`<span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-cyber-purple text-[10px]"><i class="fa-solid fa-robot"></i></span><div class="max-w-[85%] rounded-2xl rounded-tl-none border border-cyber-border bg-cyber-card p-3 text-slate-200">${text}</div>`;}else{msg.className='flex justify-end';msg.innerHTML=`<div class="max-w-[85%] rounded-2xl rounded-tr-none bg-cyber-purple p-3 text-white">${text}</div>`;}log.appendChild(msg);log.scrollTop=log.scrollHeight;}
+function setChatOptions(options){const box=document.getElementById('chatOptions');box.innerHTML='';options.forEach(opt=>{const btn=document.createElement('button');btn.className='rounded-xl border border-cyber-blue/40 bg-cyber-dark px-3 py-2 text-xs font-bold text-cyber-blue hover:bg-cyber-blue hover:text-slate-950 transition';btn.textContent=opt.label;btn.onclick=opt.action;box.appendChild(btn);});}
+function initChatQuiz(){showTyping(true);setTimeout(()=>{showTyping(false);addMessage('bot','¡Hola Gamer! 🎮 Soy <strong>GameBot</strong>. Te ayudaré a descubrir un juego ideal.');askPlatform();},450);}
+function askPlatform(){showTyping(true);setTimeout(()=>{showTyping(false);addMessage('bot','¿En qué plataforma prefieres jugar?');setChatOptions(['PC','PlayStation 5','Xbox','Nintendo Switch'].map(x=>({label:x,action:()=>{chatState.platform=x;addMessage('user',x);askGenre();}})));},350);}
+function askGenre(){showTyping(true);setTimeout(()=>{showTyping(false);addMessage('bot','¿Qué género te interesa?');setChatOptions([{label:'Acción / RPG',value:'Acción'},{label:'Aventura / Terror',value:'Aventura'},{label:'Estrategia',value:'Estrategia'},{label:'Deportes / Carreras',value:'Deportes'},{label:'Indie / Relajante',value:'Indie'}].map(x=>({label:x.label,action:()=>{chatState.genre=x.value;addMessage('user',x.label);askMode();}})));},350);}
+function askMode(){showTyping(true);setTimeout(()=>{showTyping(false);addMessage('bot','¿Qué experiencia buscas?');setChatOptions(['Solo / Historia','Multijugador','Competitivo Online'].map(x=>({label:x,action:()=>{chatState.mode=x;addMessage('user',x);generateRecommendation();}})));},350);}
+function generateRecommendation(){showTyping(true);setTimeout(()=>{showTyping(false);let candidates=gamesData.filter(g=>g.category===chatState.genre);if(!candidates.length)candidates=gamesData;const match=candidates[Math.floor(Math.random()*candidates.length)];chatState.recommendedGame=match;addMessage('bot',`¡Te recomiendo este título!<div class="mt-2 rounded-xl border border-cyber-blue/40 bg-cyber-dark p-2"><img src="${match.image}" alt="${match.title}" class="mb-2 h-24 w-full rounded-lg object-cover"><strong class="block font-orbitron">${match.title}</strong><span class="font-bold text-cyber-blue">$${match.price.toFixed(2)}</span><p class="text-xs text-slate-500">${match.category} · ${match.platform}</p></div>`);setChatOptions([{label:'Añadir al carrito',action:()=>{addToCart(match.id);addMessage('bot','¡Listo! Se agregó a tu carrito.');setChatOptions([{label:'Ver carrito',action:toggleCartModal},{label:'Volver a empezar',action:restartQuiz}]);}},{label:'Otra recomendación',action:generateRecommendation},{label:'Volver a empezar',action:restartQuiz}]);},550);}
+function restartQuiz(){chatState={platform:null,genre:null,mode:null,recommendedGame:null};document.getElementById('chatMessages').innerHTML='';initChatQuiz();}
+window.onload=()=>renderCatalog(gamesData);
+
+
+let qrCodeInstance = null;
+
+function openQRModal() {
+
+    const modal = document.getElementById("qrModal");
+    const qrContainer = document.getElementById("qrcode");
+    const message = document.getElementById("qrMessage");
+
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+
+    qrContainer.innerHTML = "";
+
+    // Obtener la dirección actual de la página
+    const pageURL = window.location.href;
+
+    // Generar el código QR
+    qrCodeInstance = new QRCode(qrContainer, {
+        text: pageURL,
+        width: 200,
+        height: 200,
+        colorDark: "#0a0a10",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+
+    // Advertencia si la página no está publicada
+    if (window.location.protocol === "file:") {
+        message.innerText =
+            "Publica tu página en Internet para que otros puedan acceder.";
+    } else {
+        message.innerText =
+            "¡Escanea y comparte WORLD GAMES!";
+    }
+}
+
+function closeQRModal() {
+
+    const modal = document.getElementById("qrModal");
+
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+}
+
+function downloadQR() {
+
+    const qrContainer = document.getElementById("qrcode");
+
+    const qrImage = qrContainer.querySelector("img");
+
+    if (qrImage && qrImage.src) {
+
+        const link = document.createElement("a");
+
+        link.href = qrImage.src;
+        link.download = "WORLD_GAMES_QR.png";
+
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+    } else {
+
+        const qrCanvas = qrContainer.querySelector("canvas");
+
+        if (qrCanvas) {
+
+            const link = document.createElement("a");
+
+            link.href = qrCanvas.toDataURL("image/png");
+            link.download = "WORLD_GAMES_QR.png";
+
+            link.click();
+
+        } else {
+
+            alert("Primero debes generar el código QR.");
+
+        }
+    }
+}
+
+</script>
+</body>
+</html>
